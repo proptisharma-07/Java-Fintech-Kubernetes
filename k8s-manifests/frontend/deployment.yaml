@@ -9,15 +9,19 @@ spec:
   selector:
     matchLabels:
       app: frontend
+
   template:
     metadata:
       labels:
         app: frontend
+
     spec:
       nodeSelector:
         kubernetes.io/hostname: worker-node-1
+
       containers:
-        - name: frontend
-          image: proptis/Java-Fintech-frontend:1.0
-          ports:
-            - containerPort: 80
+      - name: frontend
+        image: proptis/java-fintech-frontend:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
