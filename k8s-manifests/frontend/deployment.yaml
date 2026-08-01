@@ -15,7 +15,7 @@ spec:
         app: frontend
     spec:
       nodeSelector:
-        kubernetes.io/hostname: node-1
+        kubernetes.io/hostname: worker-node-1
       containers:
         - name: frontend
           image: proptis/Java-Fintech-frontend:1.0
