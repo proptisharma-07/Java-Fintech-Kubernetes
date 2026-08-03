@@ -2,6 +2,7 @@ prometheus:
   prometheusSpec:
     retention: 15d
     nodeselector:
+      kubernetes.io/hostname: monitoring
       role: monitoring
     storageSpec:
       volumeClaimTemplate:
@@ -22,6 +23,7 @@ prometheus:
 
 grafana:
   nodeSelector:
+    kubernetes.io/hostname: monitoring
     role: monitoring
   persistence:
     enabled: true
@@ -34,7 +36,7 @@ grafana:
     
 alertmanager:
   alertmanagerSpec:
-    nodeSelector:
+    nodeSelector: 
       role: monitoring
     storage:
       volumeClaimTemplate:
@@ -44,4 +46,41 @@ alertmanager:
           resources:
             requests:
               storage: 2Gi
+
+
+additionalPrometheusRuleMap:
+  custom-rules:
+    groups:
+      - name: custom-kubernetes-apps
+        rules:
+          - alert: kubePodCrashLoopingFast
+            expr: max_overtime(kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}[5m]) >= 1
+            for: 30s
+            labels:
+              severity: warning
+            annotations:
+              description: "Pod {{$labels.namespace}}/{{$labels.pod}} is in CrashLoopBackOff state for more than 30 seconds."
             
+
+          - alert: kubePodCrashLoopingFast
+            expr: max_overtime(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}) >= 1
+            for: 30s
+            labels:
+              severity: warning
+            annotations:
+              description: "Pod {{$labels.namespace}}/{{$labels.pod}} is in CrashLoopBackOff state for more than 30 seconds."
+            
+
+          - alert: kubePodCrashLoopingFast
+            expr: max_overtime(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}) >= 1
+            for: 10s
+            labels:
+              severity: warning
+            annotations:
+              description: "Pod {{$labels.namespace}}/{{$labels.pod}} container {{$labels.container}} was OOMKilled in the last 10 seconds."
+
+          
+
+
+            
+
