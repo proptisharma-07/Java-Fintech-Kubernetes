@@ -60,11 +60,11 @@ alertmanager:
       group_by: ['alertname']
       group_wait: 30s
       repeat_interval: 5m
-      group interval: 4h
+      group_interval: 4h
       routes:
         - receiver: 'null'
           matchers:
-            - alertname = "Watchdog|Kube.*Unreachable|Alertmanager.*Failed.*|etcd.*"
+            - alertname =~ "Watchdog|Kube.*Unreachable|Alertmanager.*Failed.*|etcd.*"
     receivers:
       - name: 'null'
       - name: 'discord-notifications'
