@@ -18,6 +18,6 @@ spec:
         kubernetes.io/hostname: worker-node-1
       containers:
         - name: frontend
-          image: proptis/java-fintech-frontend:1.1
+          image: proptis/java-fintech-frontend:1.2
           ports:
             - containerPort: 80
