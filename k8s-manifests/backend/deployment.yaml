@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: proptis/Java-Fintech-Kubernetes:backend
+        image: proptis/java-fintech-backend:1.2
 
         ports:
         - containerPort: 8080
